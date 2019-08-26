@@ -1,0 +1,192 @@
+﻿<Window x:Class="QuanLyNhanVien.View.KhoanNghiPhepWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien.View"
+        mc:Ignorable="d"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:uc="clr-namespace:QuanLyNhanVien.UserControlAn"
+     
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="20"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Normal"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        
+        DataContext="{StaticResource KhoanNghiPhepVM}"
+        Name="window"
+        Title="Thông Tin Khoản Nghỉ Phép" Height="750" Width="800">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Thanh ControlBar-->
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <!--Nội Dung-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--Thanh công cụ-->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/ResourceXAML/Icons/background.jpg" Stretch="Fill"></ImageBrush>
+                </Grid.Background>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom" Margin="0 0 20 0">
+                    <!--Nút Chỉnh sửa-->
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}" Height="40" ToolTip="Chỉnh sửa">
+                        <Image Stretch="None" Source="/ResourceXAML/Icons/btnSua.png"></Image>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SuaCommand}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <!--Nút Xóa-->
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}" Height="40" ToolTip="Xóa">
+                        <Image Stretch="None" Source="/ResourceXAML/Icons/btnXoa.png"></Image>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding XoaCommand}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Nội Dung Chính-->
+            <Grid Grid.Row="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="4*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!--Tiêu Đề-->
+                <TextBlock Grid.Row="0" Text="Thông Tin Khoản Nghỉ Phép" Margin="10 0 0 0"
+                           FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+
+                <!--Nội Dung Chính-->
+                
+                <StackPanel Grid.Row="1">
+                    <ComboBox
+                                    Width="600" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListNhanVien}"
+                                    SelectedItem="{Binding SelectedNhanVien, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    DisplayMemberPath="HoTen_NV"
+                                    materialDesign:HintAssist.Hint="Chọn Nhân Viên">
+
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <Setter Property="IsEnabled" Value="False" ></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelectNV}" Value="true">
+                                        <Setter Property="IsEnabled" Value="True"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+                </StackPanel>
+
+                <!--Load dữ liệu của Loại Nghỉ Phép-->
+                <ScrollViewer Grid.Row="2" Margin="-125 15 0 0">
+                    <ItemsControl ItemsSource="{Binding ListKhoanNghiPhep_KNPWD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.Resources>
+                            <Style TargetType="ItemsControl">
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                        <Setter Property="IsEnabled" Value="True"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.Resources>
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel x:Name="panelKhoanNghiPhepNV"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Width="600" Margin="-20 10 0 0">
+                                    <TextBlock 
+                                        Text="{Binding LoaiNghiPhep.Ten_LNP}"
+                                        Foreground="White"></TextBlock>
+                                    <TextBox
+                                        Width="600" HorizontalAlignment="Left"
+                                        Margin="0 5,0,0" FontSize="18"
+                                        Text="{Binding SoNgayNghi_KNP, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                
+            </Grid>
+            
+            <!--Lưu và hủy-->
+            <Grid Grid.Row="2" Margin="20 10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button Height="40" Width="100" Content="Lưu" ToolTip="Lưu"
+                            BorderBrush="{x:Null}" Background="Cyan" 
+                            FontWeight="Normal"
+                            Foreground="Black" IsDefault="True">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LuuCommand}"
+                                                   CommandParameter="{Binding ElementName=window}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Button Height="40" Width="100" Content="Hủy" ToolTip="Hủy"
+                            BorderBrush="{x:Null}" Background="White" 
+                            FontWeight="Normal" Foreground="Black" IsCancel="True">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding HuyCommand}"
+                                                   CommandParameter="{Binding ElementName=window}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

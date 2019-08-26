@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodel="clr-namespace:QuanLyNhanVien.ViewModel">
+
+    <viewmodel:MainViewModel x:Key="MainVM"></viewmodel:MainViewModel>
+    <viewmodel:NhanVienViewModel x:Key="NhanVienVM"></viewmodel:NhanVienViewModel>
+    <viewmodel:PhongBanViewModel x:Key="PhongBanVM"></viewmodel:PhongBanViewModel>
+    <viewmodel:LoginViewModel x:Key="LoginVM"></viewmodel:LoginViewModel>
+    <viewmodel:TaiKhoanViewModel x:Key="TaiKhoanVM"></viewmodel:TaiKhoanViewModel>
+    <viewmodel:NghiPhepViewModel x:Key="NghiPhepVM"></viewmodel:NghiPhepViewModel>
+    <viewmodel:KhoanNghiPhepViewModel x:Key="KhoanNghiPhepVM"></viewmodel:KhoanNghiPhepViewModel>
+    <viewmodel:LoaiNghiPhepViewModel x:Key="LoaiNghiPhepVM"></viewmodel:LoaiNghiPhepViewModel>
+    <viewmodel:TuyenDungViewModel x:Key="TuyenDungVM"></viewmodel:TuyenDungViewModel>
+    <viewmodel:ChamCongViewModel x:Key="ChamCongVM"></viewmodel:ChamCongViewModel>
+    <viewmodel:ChiPhiViewModel x:Key="ChiPhiVM"></viewmodel:ChiPhiViewModel>
+    <viewmodel:LuongViewModel x:Key="LuongVM"></viewmodel:LuongViewModel>
+    <viewmodel:BaoCaoViewModel x:Key="BaoCaoVM"></viewmodel:BaoCaoViewModel>
+    <viewmodel:KhoanLuongViewModel x:Key="KhoanLuongVM"></viewmodel:KhoanLuongViewModel>
+    <viewmodel:LoaiLuongViewModel x:Key="LoaiLuongVM"></viewmodel:LoaiLuongViewModel>
+</ResourceDictionary>

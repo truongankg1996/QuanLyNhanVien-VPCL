@@ -1,0 +1,280 @@
+﻿<Window x:Class="QuanLyNhanVien.View.NghiPhepWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyNhanVien.View"
+        mc:Ignorable="d"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:uc="clr-namespace:QuanLyNhanVien.UserControlAn"
+     
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="20"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Normal"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        
+         DataContext="{StaticResource NghiPhepVM}"
+        Name="window"
+        Title="Thông Tin Nghỉ Phép" Height="750" Width="1200">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Thanh ControlBar-->
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+
+        <!--Nội Dung-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--Thanh công cụ-->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/ResourceXAML/Icons/background.jpg" Stretch="Fill"></ImageBrush>
+                </Grid.Background>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom" Margin="0 0 20 0">
+                    <!--Nút Chỉnh sửa-->
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}" Height="40" ToolTip="Chỉnh sửa">
+                        <Image Stretch="None" Source="/ResourceXAML/Icons/btnSua.png"></Image>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SuaCommand}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <!--Nút Xóa-->
+                    <Button BorderBrush="{x:Null}" Background="{x:Null}" Height="40" ToolTip="Xóa">
+                        <Image Stretch="None" Source="/ResourceXAML/Icons/btnXoa.png"></Image>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding XoaCommand}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!--Nội Dung Chính-->
+            <Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition Height="4*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--Thông tin Nghỉ Phép-->
+
+                    <TextBlock Grid.Row="0" Text="Thông Tin Nghỉ Phép"
+                           FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <ListView Grid.Row="1">
+                        <ListViewItem Width="500" HorizontalAlignment="Left">
+                            <ListViewItem.Style>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsNVChangeable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListViewItem.Style>
+                            <StackPanel>
+                                <ComboBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListNhanVien}"
+                                    SelectedItem="{Binding SelectedNhanVien, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    DisplayMemberPath="HoTen_NV"
+                                    materialDesign:HintAssist.Hint="Nhân Viên"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding HienThiKhoanNghiPhepCommand}">
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Width="500" HorizontalAlignment="Left">
+                            <ListViewItem.Style>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListViewItem.Style>
+                            <StackPanel>
+                                <ComboBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListKhoanNghiPhep}"
+                                    SelectedItem="{Binding SelectedKhoanNghiPhep, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    DisplayMemberPath="LoaiNghiPhep.Ten_LNP"
+                                    materialDesign:HintAssist.Hint="Loại Nghỉ Phép"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                </ComboBox>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Width="500" HorizontalAlignment="Left">
+                            <ListViewItem.Style>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListViewItem.Style>
+                            <StackPanel>
+                                <DatePicker
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    SelectedDate="{Binding NgayBatDau, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Ngày Bắt Đầu"
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Width="500" HorizontalAlignment="Left">
+                            <ListViewItem.Style>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListViewItem.Style>
+                            <StackPanel>
+                                <DatePicker
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    SelectedDate="{Binding NgayKetThuc, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Ngày Kết Thúc"
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem Width="500" HorizontalAlignment="Left">
+                            <ListViewItem.Style>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListViewItem.Style>
+                            <StackPanel>
+                                <TextBox
+                                    Width="450"  Height="50" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding LiDo, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Lí Do"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </Grid>
+                
+                <!--Thông tin khoảng nghỉ phép-->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="4*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Text="Số Ngày Nghỉ Phép Còn Lại"
+                           FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+
+                    <ScrollViewer Grid.Row="1">
+                        <ListView x:Name="listKhoanNghiPhep"
+                              ItemsSource="{Binding ListKhoanNghiPhep}"
+                              FontSize="18">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Loại Nghỉ Phép" DisplayMemberBinding="{Binding LoaiNghiPhep.Ten_LNP}" Width="250"></GridViewColumn>
+                                    <GridViewColumn Header="Số Ngày Còn Lại" DisplayMemberBinding="{Binding SoNgayNghi_KNP}" Width="250"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+
+            <!--Lưu và hủy-->
+            <Grid Grid.Row="2" Margin="20 10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button Height="40" Width="100" Content="Lưu" ToolTip="Lưu"
+                            BorderBrush="{x:Null}" Background="Cyan" 
+                            FontWeight="Normal"
+                            Foreground="Black" IsDefault="True">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding LuuCommand}"
+                                                   CommandParameter="{Binding ElementName=window}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Button Height="40" Width="100" Content="Hủy" ToolTip="Hủy"
+                            BorderBrush="{x:Null}" Background="White" 
+                            FontWeight="Normal" Foreground="Black" IsCancel="True">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding HuyCommand}"
+                                                   CommandParameter="{Binding ElementName=window}">
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

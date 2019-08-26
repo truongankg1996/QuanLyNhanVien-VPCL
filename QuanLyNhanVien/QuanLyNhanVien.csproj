@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{174661F9-C483-4656-A9EA-69031C0865C2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>QuanLyNhanVien</RootNamespace>
+    <AssemblyName>QuanLyNhanVien</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.0\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Model\QuanLyNhanVien.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ThongTinChamCong.cs" />
+    <Compile Include="Model\ThongTinNgayNghiLe.cs" />
+    <Compile Include="Model\ThongTinNhanVien.cs" />
+    <Compile Include="Model\ThongTinTaiKhoan.cs" />
+    <Compile Include="ViewModel\BaoCaoViewModel.cs" />
+    <Compile Include="ViewModel\ChamCongViewModel.cs" />
+    <Compile Include="ViewModel\ChiPhiViewModel.cs" />
+    <Compile Include="ViewModel\KhoanLuongViewModel.cs" />
+    <Compile Include="ViewModel\KhoanNghiPhepViewModel.cs" />
+    <Compile Include="ViewModel\LoaiLuongViewModel.cs" />
+    <Compile Include="ViewModel\LoaiNghiPhepViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\LuongViewModel.cs" />
+    <Compile Include="ViewModel\NghiPhepViewModel.cs" />
+    <Compile Include="ViewModel\NhanVienViewModel.cs" />
+    <Compile Include="ViewModel\PhongBanViewModel.cs" />
+    <Compile Include="ViewModel\TaiKhoanViewModel.cs" />
+    <Compile Include="ViewModel\TuyenDungViewModel.cs" />
+    <Compile Include="View\HoSoUngTuyenWindow.xaml.cs">
+      <DependentUpon>HoSoUngTuyenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\KhoanNghiPhepWindow.xaml.cs">
+      <DependentUpon>KhoanNghiPhepWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaiNghiPhepWindow.xaml.cs">
+      <DependentUpon>LoaiNghiPhepWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NghiPhepWindow.xaml.cs">
+      <DependentUpon>NghiPhepWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NhanVienWindow.xaml.cs">
+      <DependentUpon>NhanVienWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PhongBanWindow.xaml.cs">
+      <DependentUpon>PhongBanWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaiKhoanWindow.xaml.cs">
+      <DependentUpon>TaiKhoanWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ResourceXAML\MainResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlAn\ControlBarUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HoSoUngTuyenWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\KhoanNghiPhepWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoaiNghiPhepWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Model\BangLuong.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ChamCongNgay.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ChiTietPhieuChi.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DataProvider.cs" />
+    <Compile Include="Model\HoSoUngTuyen.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\KhoanLuong.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\KhoanNghiPhep.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LichSuNhanVien.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LoaiChamCong.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LoaiLuong.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LoaiNghiPhep.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NgayNghiLe.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NghiPhep.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\NhanVien.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PhieuChi.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PhongBan.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\QuanLyNhanVien.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhanVien.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\QuanLyNhanVien.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyNhanVien.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaiKhoan.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UngVien.cs">
+      <DependentUpon>QuanLyNhanVien.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlAn\ControlBarUC.xaml.cs">
+      <DependentUpon>ControlBarUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\ControlBarViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\NghiPhepWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NhanVienWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PhongBanWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaiKhoanWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EntityDeploy Include="Model\QuanLyNhanVien.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>QuanLyNhanVien.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\QuanLyNhanVien.edmx.diagram">
+      <DependentUpon>QuanLyNhanVien.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ResourceXAML\TempFiles\cv.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Model\QuanLyNhanVien.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>QuanLyNhanVien.Context.cs</LastGenOutput>
+      <DependentUpon>QuanLyNhanVien.edmx</DependentUpon>
+    </Content>
+    <Content Include="Model\QuanLyNhanVien.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QuanLyNhanVien.edmx</DependentUpon>
+      <LastGenOutput>QuanLyNhanVien.cs</LastGenOutput>
+    </Content>
+    <Resource Include="ResourceXAML\Icons\background.jpg" />
+    <Resource Include="ResourceXAML\Icons\logo.png" />
+    <Resource Include="ResourceXAML\TempFiles\avatar.jpg" />
+    <Resource Include="ResourceXAML\Icons\background2.jpg" />
+    <Resource Include="ResourceXAML\Icons\btnBaoCao.png" />
+    <Resource Include="ResourceXAML\Icons\btnCaiDat.png" />
+    <Resource Include="ResourceXAML\Icons\btnChamCong.png" />
+    <Resource Include="ResourceXAML\Icons\btnChiPhi.png" />
+    <Resource Include="ResourceXAML\Icons\btnLuong.png" />
+    <Resource Include="ResourceXAML\Icons\btnNghiPhep.png" />
+    <Resource Include="ResourceXAML\Icons\btnNhanVien.png" />
+    <Resource Include="ResourceXAML\Icons\btnPhongBan.png" />
+    <Resource Include="ResourceXAML\Icons\btnSua.png" />
+    <Resource Include="ResourceXAML\Icons\btnThayDoiAnh.png" />
+    <Resource Include="ResourceXAML\Icons\btnThem.png" />
+    <Resource Include="ResourceXAML\Icons\btnThemHSUT.png" />
+    <Resource Include="ResourceXAML\Icons\btnThem_white.png" />
+    <Resource Include="ResourceXAML\Icons\btnTrangChu.png" />
+    <Resource Include="ResourceXAML\Icons\btnTuyenDung.png" />
+    <Resource Include="ResourceXAML\Icons\btnXoa.png" />
+    <Resource Include="ResourceXAML\Icons\default_user.png" />
+    <Resource Include="ResourceXAML\Icons\logo2.png" />
+    <Resource Include="ResourceXAML\Icons\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
