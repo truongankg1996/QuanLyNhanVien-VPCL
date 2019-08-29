@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QuanLyNhanVien.View"
         mc:Ignorable="d"
         
-       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:uc="clr-namespace:QuanLyNhanVien.UserControlAn"
      
@@ -24,7 +24,7 @@
         
         DataContext="{StaticResource LoaiNghiPhepVM}"
         Name="window"
-        Title="Thông Tin Loại Nghỉ Phép" Height="600" Width="700">
+        Title="Thông Tin Loại Nghỉ Phép" Height="500" Width="500">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -91,37 +91,40 @@
                 <!--Thông tin Nghỉ Phép-->
                 <TextBlock Grid.Row="0" Text="Thông Tin Loại Nghỉ Phép"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <ListView>
+                            <ListView.Style>
+                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
 
-                <ListView Grid.Row="1">
-                    <ListView.Style>
-                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                            <Setter Property="IsEnabled" Value="False"></Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.Style>
-
-                    <StackPanel>
-                        <TextBox
-                            Width="600" HorizontalAlignment="Left"
+                            <StackPanel>
+                                <TextBox
+                            Width="450" HorizontalAlignment="Left"
                             Margin="15,5,0,0" FontSize="18"
                             Text="{Binding TenLoaiNghiPhep, UpdateSourceTrigger=PropertyChanged}"
                             materialDesign:HintAssist.Hint="Tên Loại Nghỉ Phép"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-                        <ComboBox
-                            Width="600"  HorizontalAlignment="Left"
+                                <ComboBox
+                            Width="450"  HorizontalAlignment="Left"
                             Margin="15 5 0 0" FontSize="18"
                             ItemsSource="{Binding ListCoLuong}"
                             SelectedItem="{Binding SelectedCoLuong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             materialDesign:HintAssist.Hint="Có Lương ?">
-                            
-                        </ComboBox>
-                    </StackPanel>
-                </ListView>
+
+                                </ComboBox>
+                            </StackPanel>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
             </Grid>
 
             <!--Lưu và hủy-->

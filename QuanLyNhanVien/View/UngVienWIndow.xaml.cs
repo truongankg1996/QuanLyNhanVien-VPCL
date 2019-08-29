@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace QuanLyNhanVien.View
 {
     /// <summary>
-    /// Interaction logic for UngVienWIndow.xaml
+    /// Interaction logic for UngVienWindow.xaml
     /// </summary>
-    public partial class UngVienWIndow : Window
+    public partial class UngVienWindow : Window
     {
-        public UngVienWIndow()
+        public UngVienWindow()
         {
             InitializeComponent();
         }

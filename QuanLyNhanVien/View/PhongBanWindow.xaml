@@ -22,7 +22,7 @@
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         
-        Title="Thông Tin Phòng Ban"  Height="650" Width="700"
+        Title="Thông Tin Phòng Ban"  Height="600" Width="500"
         DataContext="{StaticResource PhongBanVM}"
         Name="window">
 
@@ -88,52 +88,56 @@
 
                 <TextBlock Grid.Row="0" Text="Thông tin Phòng ban"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                <ListView Grid.Row="1">
-                    <ListView.Style>
-                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                            <Setter Property="IsEnabled" Value="False"></Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.Style>
+                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <ListView>
+                            <ListView.Style>
+                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
 
-                    <StackPanel>
+                            <StackPanel>
 
-                        <TextBox
-                        Width="600" HorizontalAlignment="Left"
-                        Margin="15,5,0,0" FontSize="18"
-                        Text="{Binding TenPhongBan, UpdateSourceTrigger=PropertyChanged}"
-                        materialDesign:HintAssist.Hint="Tên Phòng Ban"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <TextBox
+                                    Width="450" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding TenPhongBan, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Tên Phòng Ban"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-                        <DatePicker
-                        Width="600" HorizontalAlignment="Left"
-                        Margin="15 5 0 0" FontSize="18"
-                        SelectedDate="{Binding NgayThanhLap, UpdateSourceTrigger=PropertyChanged}"
-                        materialDesign:HintAssist.Hint="Ngày Thành Lập"
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                                <DatePicker
+                                    Width="450" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    SelectedDate="{Binding NgayThanhLap, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Ngày Thành Lập"
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                        <ComboBox
-                        Width="600" HorizontalAlignment="Left"
-                        Margin="15 5 0 0" FontSize="18"
-                        ItemsSource="{Binding ListNhanVienPhongBan}"
-                        SelectedItem="{Binding SelectedTruongPhong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        DisplayMemberPath="HoTen_NV"
-                        materialDesign:HintAssist.Hint="Trưởng Phòng"
-                        Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                        </ComboBox>
+                                <ComboBox
+                                    Width="450" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListNhanVienPhongBan}"
+                                    SelectedItem="{Binding SelectedTruongPhong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    DisplayMemberPath="HoTen_NV"
+                                    materialDesign:HintAssist.Hint="Trưởng Phòng"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                </ComboBox>
 
-                        <TextBox
-                        Width="600" HorizontalAlignment="Left"
-                        Margin="15,5,0,0" FontSize="18"
-                        Text="{Binding DiaChi, UpdateSourceTrigger=PropertyChanged}"
-                        materialDesign:HintAssist.Hint="Địa Chỉ"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    </StackPanel>
-                </ListView>
+                                <TextBox
+                                    Width="450" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding DiaChi, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Địa Chỉ"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                            </StackPanel>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
             </Grid>
             
             <!--Lưu và hủy-->

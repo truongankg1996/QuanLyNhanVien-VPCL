@@ -93,9 +93,10 @@
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
                 <!--Nội Dung Chính-->
-                
-                <StackPanel Grid.Row="1">
-                    <ComboBox
+
+                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <ComboBox
                                     Width="600" Height="50" HorizontalAlignment="Left"
                                     Margin="15 5 0 0" FontSize="18"
                                     ItemsSource="{Binding ListNhanVien}"
@@ -103,56 +104,59 @@
                                     DisplayMemberPath="HoTen_NV"
                                     materialDesign:HintAssist.Hint="Chọn Nhân Viên">
 
-                        <ComboBox.Style>
-                            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
-                                <Setter Property="IsEnabled" Value="False" ></Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelectNV}" Value="true">
-                                        <Setter Property="IsEnabled" Value="True"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ComboBox.Style>
-                    </ComboBox>
-                </StackPanel>
+                            <ComboBox.Style>
+                                <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                    <Setter Property="IsEnabled" Value="False" ></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelectNV}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.Style>
+                        </ComboBox>
+                    </StackPanel>
+                </materialDesign:Card>
+                
 
                 <!--Load dữ liệu của Loại Nghỉ Phép-->
-                <ScrollViewer Grid.Row="2" Margin="-125 15 0 0">
-                    <ItemsControl ItemsSource="{Binding ListKhoanNghiPhep_KNPWD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <ItemsControl.Resources>
-                            <Style TargetType="ItemsControl">
-                                <Setter Property="IsEnabled" Value="False"></Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                        <Setter Property="IsEnabled" Value="True"></Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ItemsControl.Resources>
+                <materialDesign:Card Grid.Row="2" VerticalAlignment="Stretch">
+                    <ScrollViewer Margin="-125 15 0 0">
+                        <ItemsControl ItemsSource="{Binding ListKhoanNghiPhep_KNPWD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.Resources>
+                                <Style TargetType="ItemsControl">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.Resources>
 
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel x:Name="panelKhoanNghiPhepNV"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel x:Name="panelKhoanNghiPhepNV"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Width="600" Margin="-20 10 0 0">
-                                    <TextBlock 
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="600" Margin="-20 10 0 0">
+                                        <TextBlock 
                                         Text="{Binding LoaiNghiPhep.Ten_LNP}"
                                         Foreground="White"></TextBlock>
-                                    <TextBox
+                                        <TextBox
                                         Width="600" HorizontalAlignment="Left"
                                         Margin="0 5,0,0" FontSize="18"
                                         Text="{Binding SoNgayNghi_KNP, UpdateSourceTrigger=PropertyChanged}"
                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-                
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </materialDesign:Card>
             </Grid>
             
             <!--Lưu và hủy-->

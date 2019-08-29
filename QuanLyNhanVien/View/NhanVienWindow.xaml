@@ -217,54 +217,56 @@
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0">
                                     <TextBlock Text="Thông tin cá nhân" FontFamily="Segoe UI Semibold" FontSize="22" ></TextBlock>
-
                                 </StackPanel>
+                                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                        <ListView >
+                                            <ListView.Style>
+                                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.Style>
 
-                                <ListView Grid.Row="1">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                                            <Setter Property="IsEnabled" Value="False"></Setter>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ListView.Style>
 
-
-                                    <StackPanel >
-                                        <TextBox 
+                                            <StackPanel >
+                                                <TextBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Họ Tên"
                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                             Text="{Binding HoTen, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0"/>
-                                    
-                                        <DatePicker 
+
+                                                <DatePicker 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Ngày Sinh"
                                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                                             SelectedDate="{Binding NgaySinh, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0" IsTabStop="True"/>
-                                
-                                        <ComboBox 
+
+                                                <ComboBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Giới Tính"
                                             Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                             ItemsSource="{Binding ListGioiTinh}" 
                                             SelectedItem="{Binding SelectedGioiTinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0"/>
-                                  
-                                        <TextBox 
+
+                                                <TextBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Địa chỉ"
                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                             Text="{Binding DiaChi, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0"/>
-                                    </StackPanel>
+                                            </StackPanel>
 
-                                </ListView>
+                                        </ListView>
+                                    </ScrollViewer>
+                                </materialDesign:Card>
                             </Grid>
 
                             <!--- Thông tin công việc-->
@@ -276,31 +278,32 @@
 
                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0">
                                     <TextBlock Text="Thông tin công việc" FontFamily="Segoe UI Semibold" FontSize="22" ></TextBlock>
-
                                 </StackPanel>
 
-                                <ListView Grid.Row="1">
-                                    <ListView.Style>
-                                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                                            <Setter Property="IsEnabled" Value="False"></Setter>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ListView.Style>
+                                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                        <ListView>
+                                            <ListView.Style>
+                                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.Style>
 
 
-                                    <StackPanel >
-                                        <TextBox 
+                                            <StackPanel >
+                                                <TextBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Chức vụ"
                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                             Text="{Binding ChucVu, UpdateSourceTrigger=PropertyChanged}" 
                                             FontSize="18" Margin="0,5,0,0"/>
 
-                                        <ComboBox 
+                                                <ComboBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Phòng Ban"
                                             Style="{StaticResource MaterialDesignFloatingHintComboBox}"
@@ -309,28 +312,30 @@
                                             DisplayMemberPath="Ten_PB" 
                                             FontSize="18" Margin="0,5,0,0" IsEditable="True" IsTextSearchCaseSensitive="True"/>
 
-                                        <TextBox 
+                                                <TextBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Số điện thoại"
                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                             Text="{Binding SoDienThoai, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0"/>
 
-                                        <TextBox 
+                                                <TextBox 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Email"
                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0"/>
 
-                                        <DatePicker 
+                                                <DatePicker 
                                             Width="430"
                                             materialDesign:HintAssist.Hint="Ngày vào làm"
                                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                                             SelectedDate="{Binding NgayVaoLam, UpdateSourceTrigger=PropertyChanged}"
                                             FontSize="18" Margin="0,5,0,0" IsTabStop="True"/>
-                                    </StackPanel>
-                                </ListView>
+                                            </StackPanel>
+                                        </ListView>
+                                    </ScrollViewer>
+                                </materialDesign:Card>
                             </Grid>
                         </Grid>
 
@@ -400,35 +405,39 @@
                         </Grid>
 
                         <!-- Nội dung -->
-                        <ListView Grid.Row="1" Name="listLichSuNhanVien" Margin="0 0 0 20"
+                        <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <ListView Name="listLichSuNhanVien" Margin="0 0 0 20"
                                   ItemsSource="{Binding ListLichSuNhanVien}">
 
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Ma_LSNV}">
-                                        <GridViewColumnHeader Tag="NhanVien.HoTen_NV" 
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Ma_LSNV}">
+                                                <GridViewColumnHeader Tag="NhanVien.HoTen_NV" 
                                                               Command="{Binding SortLichSuNVCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                                                               VerticalAlignment="Center" Content="ID" Width="100">
-                                        </GridViewColumnHeader>
-                                    </GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding MoTa_LSNV}">
-                                        <GridViewColumnHeader Tag="MoTa_LSNV" 
+                                                </GridViewColumnHeader>
+                                            </GridViewColumn>
+                                            <GridViewColumn DisplayMemberBinding="{Binding MoTa_LSNV}">
+                                                <GridViewColumnHeader Tag="MoTa_LSNV" 
                                                               Command="{Binding SortLichSuNVCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                                                               VerticalAlignment="Center" Content="Chi tiết thay đổi" Width="500">
-                                        </GridViewColumnHeader>
-                                    </GridViewColumn>
-                                    <GridViewColumn DisplayMemberBinding="{Binding ThoiGian_LSNV, StringFormat='dd/MM/yyyy HH:mm'}">
-                                        <GridViewColumnHeader Tag="ThoiGian_LSNV" 
+                                                </GridViewColumnHeader>
+                                            </GridViewColumn>
+                                            <GridViewColumn DisplayMemberBinding="{Binding ThoiGian_LSNV, StringFormat='dd/MM/yyyy HH:mm'}">
+                                                <GridViewColumnHeader Tag="ThoiGian_LSNV" 
                                                               Command="{Binding SortLichSuNVCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                                                               VerticalAlignment="Center" Content="Thời gian" Width="200">
-                                        </GridViewColumnHeader>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                                                </GridViewColumnHeader>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </ScrollViewer>
+                        </materialDesign:Card>
                     </Grid>
                 </Grid>
             </Grid>

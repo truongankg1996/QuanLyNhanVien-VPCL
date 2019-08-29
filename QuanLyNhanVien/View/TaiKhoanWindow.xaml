@@ -22,9 +22,9 @@
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         
-         DataContext="{StaticResource TaiKhoanVM}"
+        DataContext="{StaticResource TaiKhoanVM}"
         Name="window"
-        Title="Thông Tin Tài Khoản" Height="600" Width="800">
+        Title="Thông Tin Tài Khoản" Height="600" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -87,83 +87,87 @@
 
                 <TextBlock Grid.Row="0" Text="Thông tin Tài Khoản"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                <ListView Grid.Row="1">
-                    <ListView.Style>
-                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                            <Setter Property="IsEnabled" Value="False"></Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.Style>
+                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ListView>
+                            <ListView.Style>
+                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
 
-                    <StackPanel>
+                            <StackPanel>
 
-                        <TextBox
-                        Width="600"  Height="50" HorizontalAlignment="Left"
-                        Margin="15,5,0,0" FontSize="18"
-                        Text="{Binding TenTaiKhoan, UpdateSourceTrigger=PropertyChanged}"
-                        materialDesign:HintAssist.Hint="Tên Đăng Nhập"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <TextBox
+                                    Width="450"  Height="50" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding TenTaiKhoan, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Tên Đăng Nhập"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-                        <PasswordBox
-                            Width="600" Height="50" HorizontalAlignment="Left"
-                            Margin="15 5 0 0" FontSize="18"
-                            x:Name="pwbMatKhau"
-                            materialDesign:HintAssist.Foreground="DarkGray"
-                            materialDesign:TextFieldAssist.UnderlineBrush="DarkGray"
-                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                            materialDesign:HintAssist.Hint="Mật Khẩu">
+                                <PasswordBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    x:Name="pwbMatKhau"
+                                    materialDesign:HintAssist.Foreground="DarkGray"
+                                    materialDesign:TextFieldAssist.UnderlineBrush="DarkGray"
+                                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                    materialDesign:HintAssist.Hint="Mật Khẩu">
 
-                            <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="PasswordChanged">
-                                <i:InvokeCommandAction 
-                                    Command="{Binding PasswordChangedCommand}"
-                                    CommandParameter="{Binding ElementName=pwbMatKhau}"/>
-                            </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </PasswordBox>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PasswordChanged">
+                                            <i:InvokeCommandAction 
+                                                Command="{Binding PasswordChangedCommand}"
+                                                CommandParameter="{Binding ElementName=pwbMatKhau}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </PasswordBox>
 
-                        <PasswordBox
-                            Width="600" Height="50" HorizontalAlignment="Left"
-                            Margin="15 5 0 0" FontSize="18"
-                            x:Name="pwbNhapLaiMatKhau"
-                            materialDesign:HintAssist.Foreground="DarkGray"
-                            materialDesign:TextFieldAssist.UnderlineBrush="DarkGray"
-                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                            materialDesign:HintAssist.Hint="Nhập Lại Mật Khẩu">
+                                <PasswordBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    x:Name="pwbNhapLaiMatKhau"
+                                    materialDesign:HintAssist.Foreground="DarkGray"
+                                    materialDesign:TextFieldAssist.UnderlineBrush="DarkGray"
+                                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                    materialDesign:HintAssist.Hint="Nhập Lại Mật Khẩu">
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PasswordChanged">
-                                    <i:InvokeCommandAction 
-                                    Command="{Binding RepeatPasswordChangedCommand}"
-                                    CommandParameter="{Binding ElementName=pwbNhapLaiMatKhau}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </PasswordBox>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PasswordChanged">
+                                            <i:InvokeCommandAction 
+                                                Command="{Binding RepeatPasswordChangedCommand}"
+                                                CommandParameter="{Binding ElementName=pwbNhapLaiMatKhau}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </PasswordBox>
 
-                        <ComboBox
-                        Width="600" Height="50" HorizontalAlignment="Left"
-                        Margin="15 5 0 0" FontSize="18"
-                        ItemsSource="{Binding ListQuyenHan}"
-                        SelectedItem="{Binding SelectedQuyenHan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                        materialDesign:HintAssist.Hint="Quyền Hạn"
-                        Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                        </ComboBox>
+                                <ComboBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListQuyenHan}"
+                                    SelectedItem="{Binding SelectedQuyenHan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    materialDesign:HintAssist.Hint="Quyền Hạn"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                </ComboBox>
 
-                        <ComboBox
-                        Width="600" Height="50" HorizontalAlignment="Left"
-                        Margin="15 5 0 0" FontSize="18"
-                        ItemsSource="{Binding ListNhanVien}"
-                        SelectedItem="{Binding SelectedNhanVien, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            DisplayMemberPath="HoTen_NV"
-                        materialDesign:HintAssist.Hint="Nhân Viên"
-                        Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                        </ComboBox>
-                    </StackPanel>
-                </ListView>
+                                <ComboBox
+                                    Width="450" Height="50" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListNhanVien}"
+                                    SelectedItem="{Binding SelectedNhanVien, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    DisplayMemberPath="HoTen_NV"
+                                    materialDesign:HintAssist.Hint="Nhân Viên"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                </ComboBox>
+                            </StackPanel>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
             </Grid>
 
             <!--Lưu và hủy-->
