@@ -97,20 +97,21 @@
 
                     <TextBlock Grid.Row="0" Text="Thông Tin Nghỉ Phép"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <ListView Grid.Row="1">
-                        <ListViewItem Width="500" HorizontalAlignment="Left">
-                            <ListViewItem.Style>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsNVChangeable}" Value="true">
-                                            <Setter Property="IsEnabled" Value="True"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListViewItem.Style>
-                            <StackPanel>
-                                <ComboBox
+                    <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                        <ListView >
+                            <ListViewItem Width="500" HorizontalAlignment="Left">
+                                <ListViewItem.Style>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="False"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsNVChangeable}" Value="true">
+                                                <Setter Property="IsEnabled" Value="True"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListViewItem.Style>
+                                <StackPanel>
+                                    <ComboBox
                                     Width="450" Height="50" HorizontalAlignment="Left"
                                     Margin="15 5 0 0" FontSize="18"
                                     ItemsSource="{Binding ListNhanVien}"
@@ -119,29 +120,29 @@
                                     materialDesign:HintAssist.Hint="Nhân Viên"
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="SelectionChanged">
-                                            <i:InvokeCommandAction Command="{Binding HienThiKhoanNghiPhepCommand}">
-                                            </i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </ComboBox>
-                            </StackPanel>
-                        </ListViewItem>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding HienThiKhoanNghiPhepCommand}">
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ComboBox>
+                                </StackPanel>
+                            </ListViewItem>
 
-                        <ListViewItem Width="500" HorizontalAlignment="Left">
-                            <ListViewItem.Style>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                            <Setter Property="IsEnabled" Value="True"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListViewItem.Style>
-                            <StackPanel>
-                                <ComboBox
+                            <ListViewItem Width="500" HorizontalAlignment="Left">
+                                <ListViewItem.Style>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="False"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                <Setter Property="IsEnabled" Value="True"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListViewItem.Style>
+                                <StackPanel>
+                                    <ComboBox
                                     Width="450" Height="50" HorizontalAlignment="Left"
                                     Margin="15 5 0 0" FontSize="18"
                                     ItemsSource="{Binding ListKhoanNghiPhep}"
@@ -149,73 +150,74 @@
                                     DisplayMemberPath="LoaiNghiPhep.Ten_LNP"
                                     materialDesign:HintAssist.Hint="Loại Nghỉ Phép"
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                                </ComboBox>
-                            </StackPanel>
-                        </ListViewItem>
+                                    </ComboBox>
+                                </StackPanel>
+                            </ListViewItem>
 
-                        <ListViewItem Width="500" HorizontalAlignment="Left">
-                            <ListViewItem.Style>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                            <Setter Property="IsEnabled" Value="True"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListViewItem.Style>
-                            <StackPanel>
-                                <DatePicker
+                            <ListViewItem Width="500" HorizontalAlignment="Left">
+                                <ListViewItem.Style>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="False"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                <Setter Property="IsEnabled" Value="True"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListViewItem.Style>
+                                <StackPanel>
+                                    <DatePicker
                                     Width="450" Height="50" HorizontalAlignment="Left"
                                     Margin="15 5 0 0" FontSize="18"
                                     SelectedDate="{Binding NgayBatDau, UpdateSourceTrigger=PropertyChanged}"
                                     materialDesign:HintAssist.Hint="Ngày Bắt Đầu"
                                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                            </StackPanel>
-                        </ListViewItem>
+                                </StackPanel>
+                            </ListViewItem>
 
-                        <ListViewItem Width="500" HorizontalAlignment="Left">
-                            <ListViewItem.Style>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                            <Setter Property="IsEnabled" Value="True"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListViewItem.Style>
-                            <StackPanel>
-                                <DatePicker
+                            <ListViewItem Width="500" HorizontalAlignment="Left">
+                                <ListViewItem.Style>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="False"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                <Setter Property="IsEnabled" Value="True"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListViewItem.Style>
+                                <StackPanel>
+                                    <DatePicker
                                     Width="450" Height="50" HorizontalAlignment="Left"
                                     Margin="15 5 0 0" FontSize="18"
                                     SelectedDate="{Binding NgayKetThuc, UpdateSourceTrigger=PropertyChanged}"
                                     materialDesign:HintAssist.Hint="Ngày Kết Thúc"
                                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                            </StackPanel>
-                        </ListViewItem>
+                                </StackPanel>
+                            </ListViewItem>
 
-                        <ListViewItem Width="500" HorizontalAlignment="Left">
-                            <ListViewItem.Style>
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                            <Setter Property="IsEnabled" Value="True"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListViewItem.Style>
-                            <StackPanel>
-                                <TextBox
+                            <ListViewItem Width="500" HorizontalAlignment="Left">
+                                <ListViewItem.Style>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="IsEnabled" Value="False"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditable}" Value="true">
+                                                <Setter Property="IsEnabled" Value="True"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListViewItem.Style>
+                                <StackPanel>
+                                    <TextBox
                                     Width="450"  Height="50" HorizontalAlignment="Left"
                                     Margin="15,5,0,0" FontSize="18"
                                     Text="{Binding LiDo, UpdateSourceTrigger=PropertyChanged}"
                                     materialDesign:HintAssist.Hint="Lí Do"
                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </materialDesign:Card>
                 </Grid>
                 
                 <!--Thông tin khoảng nghỉ phép-->
@@ -228,18 +230,20 @@
                     <TextBlock Grid.Row="0" Text="Số Ngày Nghỉ Phép Còn Lại"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
 
-                    <ScrollViewer Grid.Row="1">
-                        <ListView x:Name="listKhoanNghiPhep"
+                    <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch">
+                        <ScrollViewer VerticalScrollBarVisibility="auto">
+                            <ListView x:Name="listKhoanNghiPhep"
                               ItemsSource="{Binding ListKhoanNghiPhep}"
                               FontSize="18">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Loại Nghỉ Phép" DisplayMemberBinding="{Binding LoaiNghiPhep.Ten_LNP}" Width="250"></GridViewColumn>
-                                    <GridViewColumn Header="Số Ngày Còn Lại" DisplayMemberBinding="{Binding SoNgayNghi_KNP}" Width="250"></GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </ScrollViewer>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Loại Nghỉ Phép" DisplayMemberBinding="{Binding LoaiNghiPhep.Ten_LNP}" Width="250"></GridViewColumn>
+                                        <GridViewColumn Header="Số Ngày Còn Lại" DisplayMemberBinding="{Binding SoNgayNghi_KNP}" Width="250"></GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                    </materialDesign:Card>
                 </Grid>
             </Grid>
 

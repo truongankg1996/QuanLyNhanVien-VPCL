@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QuanLyNhanVien.View"
         mc:Ignorable="d"
         
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:uc="clr-namespace:QuanLyNhanVien.UserControlAn"
      
@@ -24,7 +24,7 @@
         
         DataContext="{StaticResource TuyenDungVM}"
         Name="window"
-        Title="Thông Tin Hồ Sơ Ứng Tuyển" Height="600" Width="700">
+        Title="Thông Tin Hồ Sơ Ứng Tuyển" Height="700" Width="500">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -59,7 +59,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding SuaCommand}">
+                                <i:InvokeCommandAction Command="{Binding Sua_HSUTCommand}">
                                 </i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -71,7 +71,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding XoaCommand}">
+                                <i:InvokeCommandAction Command="{Binding Xoa_HSUTCommand}">
                                 </i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -83,81 +83,94 @@
             <Grid Grid.Row="1">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
                     <RowDefinition Height="4*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <!--Tiêu Đề-->
-                <TextBlock Grid.Row="0" Text="Thông Tin Hồ Sơ Ứng Tuyển"
+                    <!--Thông tin cá nhân-->
+
+                    <TextBlock Grid.Row="0" Text="Thông Tin Hồ Sơ Ứng Tuyển"
                            FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <materialDesign:Card Grid.Row="1" VerticalAlignment="Stretch" Width="600">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <ListView>
+                            <ListView.Style>
+                                <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEditable_HSUT}" Value="true">
+                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
 
-                <!--Nội Dung Chính-->
-                <ListView Grid.Row="1">
-                    <ListView.Style>
-                        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
-                            <Setter Property="IsEnabled" Value="False"></Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEditable}" Value="true">
-                                    <Setter Property="IsEnabled" Value="True"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.Style>
+                            <StackPanel>
+                                <TextBox
+                                    Width="400" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding ViTriCongViec, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Vị Trí Công Việc"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-                    <StackPanel>
-                        <TextBox
-                            Width="600" HorizontalAlignment="Left"
-                            Margin="15,5,0,0" FontSize="18"
-                            Text="{Binding ViTriCongViec, UpdateSourceTrigger=PropertyChanged}"
-                            materialDesign:HintAssist.Hint="Vị Trí Công Việc"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                        <DatePicker
-                            Width="600" Height="50" HorizontalAlignment="Left"
-                            Margin="15 5 0 0" FontSize="18"
-                            SelectedDate="{Binding NgayNop, UpdateSourceTrigger=PropertyChanged}"
-                            materialDesign:HintAssist.Hint="Ngày Nộp"
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                        <ComboBox
-                            Width="600"  HorizontalAlignment="Left"
-                            Margin="15 5 0 0" FontSize="18"
-                            ItemsSource="{Binding ListTrangThai_HSUT}"
-                            SelectedItem="{Binding SelectedTrangThai, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            materialDesign:HintAssist.Hint="Trạng Thái"/>
-                        <TextBox
-                            Width="600" HorizontalAlignment="Left"
-                            Margin="15,5,0,0" FontSize="18"
-                            Text="{Binding TenFileCV, UpdateSourceTrigger=PropertyChanged}"
-                            materialDesign:HintAssist.Hint="Công Việc"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                        <Button 
-                            Height="50" Width="100" Content="Chọn File" ToolTip="Chọn File"
-                            BorderBrush="{x:Null}" Background="Cyan" 
-                            FontWeight="Normal" HorizontalAlignment="Left"
-                            Foreground="Black" IsDefault="True" Margin="15 5 0 0">
+                                <DatePicker
+                                    Width="400" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    SelectedDate="{Binding NgayNop, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Ngày Nộp"
+                                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ChonFile_HSUTCommand}">
-                                    </i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button 
-                            Height="50" Width="100" Content="Xem File" ToolTip="Xem File"
-                            BorderBrush="{x:Null}" Background="Cyan" 
-                            FontWeight="Normal" HorizontalAlignment="Left"
-                            Foreground="Black" IsDefault="True" Margin="15 5 0 0">
+                                <ComboBox
+                                    Width="400" HorizontalAlignment="Left"
+                                    Margin="15 5 0 0" FontSize="18"
+                                    ItemsSource="{Binding ListTrangThai_HSUT}"
+                                    SelectedItem="{Binding SelectedTrangThai, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Trạng Thái"
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                </ComboBox>
 
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding XemFile_HSUTCommand}">
-                                    </i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
+                                <StackPanel>
+                                    <TextBox
+                                    Width="400" HorizontalAlignment="Left"
+                                    Margin="15,5,0,0" FontSize="18"
+                                    Text="{Binding TenFileCV, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="CV"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                    <StackPanel Orientation="Vertical" Margin="15 10 0 0" HorizontalAlignment="Left">
+                                        
+                                        <Button Height="40" Width="100" Content="Chọn File" ToolTip="Chọn File"
+                                                BorderBrush="{x:Null}" Background="Cyan" Margin="5"
+                                                FontWeight="Normal" Foreground="Black" IsDefault="True">
 
-                    </StackPanel>
-                </ListView>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction 
+                                                        Command="{Binding ChonFile_HSUTCommand}"
+                                                        CommandParameter="{Binding ElementName=window}">
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <Button Height="40" Width="100" Content="Xem File" ToolTip="Xem File"
+                                                BorderBrush="{x:Null}" Background="Cyan" Margin="5"
+                                                FontWeight="Normal" Foreground="Black" IsDefault="True">
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction 
+                                                        Command="{Binding XemFile_HSUTCommand}"
+                                                        CommandParameter="{Binding ElementName=window}">
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListView>
+                    </ScrollViewer>
+                </materialDesign:Card>
             </Grid>
 
             <!--Lưu và hủy-->
@@ -171,7 +184,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding LuuCommand}"
+                                <i:InvokeCommandAction Command="{Binding Luu_HSUTCommand}"
                                                    CommandParameter="{Binding ElementName=window}">
                                 </i:InvokeCommandAction>
                             </i:EventTrigger>
@@ -184,7 +197,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding HuyCommand}"
+                                <i:InvokeCommandAction Command="{Binding Huy_HSUTCommand}"
                                                    CommandParameter="{Binding ElementName=window}">
                                 </i:InvokeCommandAction>
                             </i:EventTrigger>

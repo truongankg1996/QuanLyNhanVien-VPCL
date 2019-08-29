@@ -1,15 +1,21 @@
 ﻿using QuanLyNhanVien.Model;
+using QuanLyNhanVien.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace QuanLyNhanVien.ViewModel
 {
-    public class TuyenDungViewModel:BaseViewModel
+    public class TuyenDungViewModel : BaseViewModel
     {
         #region Ứng Viên ViewModel
         #region DataContext
@@ -65,7 +71,7 @@ namespace QuanLyNhanVien.ViewModel
             string[] DSGioiTinh = new string[] { "Nam", "Nữ" };
             ListGioiTinh = new ObservableCollection<string>(DSGioiTinh);
             string[] DSTrangThai = new string[] { "Chưa Xử Lý", "Chấp Nhận", "Từ Chối" };
-
+            ListTrangThai_HSUT = new ObservableCollection<string>(DSTrangThai);
             IsEditable = false;
             #endregion
 
@@ -79,18 +85,20 @@ namespace QuanLyNhanVien.ViewModel
             }, (p) =>
             {
                 IsEditable = true;
+                SelectedUngVien = null;
                 ResetControls();
+                ReloadListHoSoUngTuyen();
 
-                LoaiNghiPhepWindow window = new LoaiNghiPhepWindow();
+                UngVienWIndow window = new UngVienWIndow();
                 window.ShowDialog();
             });
             #endregion
 
-            #region Hiện Thị
-            //Hiện thị
+            #region Hiển Thị
+            //Hiển thị
             HienThiCommand = new RelayCommand<Object>((p) =>
             {
-                if (SelectedLoaiNghiPhep == null)
+                if (SelectedUngVien == null)
                 {
                     return false;
                 }
@@ -99,10 +107,16 @@ namespace QuanLyNhanVien.ViewModel
             {
                 IsEditable = false;
 
-                TenLoaiNghiPhep = SelectedLoaiNghiPhep.Ten_LNP;
-                SelectedCoLuong = SelectedLoaiNghiPhep.CoLuong_LNP == true ? "Có" : "Không";
+                HoTen = SelectedUngVien.HoTen_UV;
+                NgaySinh = SelectedUngVien.NgaySinh_UV;
+                DiaChi = SelectedUngVien.DiaChi_UV;
+                NgaySinh = SelectedUngVien.NgaySinh_UV;
+                Email = SelectedUngVien.Email_UV;
+                SDT = SelectedUngVien.SoDienThoai_UV;
+                SelectedGioiTinh = SelectedUngVien.GioiTinh_UV == true ? "Nữ" : "Nam";
 
-                LoaiNghiPhepWindow window = new LoaiNghiPhepWindow();
+                ReloadListHoSoUngTuyen();
+                UngVienWIndow window = new UngVienWIndow();
                 window.ShowDialog();
             });
             #endregion
@@ -129,9 +143,9 @@ namespace QuanLyNhanVien.ViewModel
                 return true;
             }, (p) =>
             {
-                if (SelectedLoaiNghiPhep == null)
+                if (SelectedUngVien == null)
                 {
-                    MessageBox.Show("Vui lòng chọn loại nghỉ phép để chỉnh sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Vui lòng chọn ứng viên để chỉnh sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 IsEditable = true;
             });
@@ -143,7 +157,7 @@ namespace QuanLyNhanVien.ViewModel
                 return p == null ? false : true;
             }, (p) =>
             {
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListLoaiNghiPhep);
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListUngVien);
                 if (sort)
                 {
                     view.SortDescriptions.Clear();
@@ -164,15 +178,15 @@ namespace QuanLyNhanVien.ViewModel
                 return true;
             }, (p) =>
             {
-                if (string.IsNullOrEmpty(SearchLoaiNghiPhep))
+                if (string.IsNullOrEmpty(SearchUngVien))
                 {
-                    CollectionViewSource.GetDefaultView(ListLoaiNghiPhep).Filter = (all) => { return true; };
+                    CollectionViewSource.GetDefaultView(ListUngVien).Filter = (all) => { return true; };
                 }
                 else
                 {
-                    CollectionViewSource.GetDefaultView(ListLoaiNghiPhep).Filter = (search) =>
+                    CollectionViewSource.GetDefaultView(ListUngVien).Filter = (search) =>
                     {
-                        return (search as LoaiNghiPhep).Ten_LNP.IndexOf(SearchLoaiNghiPhep, StringComparison.OrdinalIgnoreCase) >= 0;
+                        return (search as UngVien).HoTen_UV.IndexOf(SearchUngVien, StringComparison.OrdinalIgnoreCase) >= 0;
                     };
                 }
             });
@@ -182,9 +196,14 @@ namespace QuanLyNhanVien.ViewModel
             //Luu
             LuuCommand = new RelayCommand<Window>((p) =>
             {
-                if (TenLoaiNghiPhep == null || SelectedCoLuong == null)
+                if (string.IsNullOrEmpty(HoTen) ||
+                string.IsNullOrEmpty(DiaChi) ||
+                string.IsNullOrEmpty(SDT) ||
+                string.IsNullOrEmpty(Email) ||
+                NgaySinh == null ||
+                SelectedGioiTinh == null)
                 {
-                    MessageBox.Show("Vui lòng nhập hết thông tin loại nghỉ phép", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Vui lòng nhập hết thông tin ứng viên", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
                 if (IsEditable == false)
@@ -196,32 +215,40 @@ namespace QuanLyNhanVien.ViewModel
             }, (p) =>
             {
 
-                if (SelectedLoaiNghiPhep == null)
+                if (SelectedUngVien == null)
                 {
-                    var LoaiNghiPhepMoi = new LoaiNghiPhep()
+                    var Moi = new UngVien()
                     {
-                        Ten_LNP = TenLoaiNghiPhep,
-                        CoLuong_LNP = SelectedCoLuong == "Có" ? true : false
+                        HoTen_UV = HoTen,
+                        DiaChi_UV = DiaChi,
+                        Email_UV = Email,
+                        SoDienThoai_UV = SDT,
+                        NgaySinh_UV = NgaySinh,
+                        GioiTinh_UV = SelectedGioiTinh == "Nữ" ? true : false
                     };
 
-                    DataProvider.Ins.DB.LoaiNghiPhep.Add(LoaiNghiPhepMoi);
+                    DataProvider.Ins.DB.UngVien.Add(Moi);
 
                     DataProvider.Ins.DB.SaveChanges();
-                    ListLoaiNghiPhep.Add(LoaiNghiPhepMoi);
-                    MessageBox.Show("Thêm loại nghỉ Phếp thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    ListUngVien.Add(Moi);
+                    MessageBox.Show("Thêm ứng viên thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
 
-                    var LoaiNghiPhepSua = DataProvider.Ins.DB.LoaiNghiPhep.Where(x => x.Ma_LNP == SelectedLoaiNghiPhep.Ma_LNP).SingleOrDefault();
+                    var Sua = DataProvider.Ins.DB.UngVien.Where(x => x.Ma_UV == SelectedUngVien.Ma_UV).SingleOrDefault();
 
-                    LoaiNghiPhepSua.Ten_LNP = TenLoaiNghiPhep;
-                    LoaiNghiPhepSua.CoLuong_LNP = SelectedCoLuong == "Có" ? true : false;
+                    Sua.HoTen_UV = HoTen;
+                    Sua.DiaChi_UV = DiaChi;
+                    Sua.Email_UV = Email;
+                    Sua.NgaySinh_UV = NgaySinh;
+                    Sua.SoDienThoai_UV = SDT;
+                    Sua.GioiTinh_UV = SelectedGioiTinh == "Nữ" ? true : false;
 
                     DataProvider.Ins.DB.SaveChanges();
                     MessageBox.Show("Cập nhật thông tin Nghỉ Phép thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                LoadListLoaiNghiPhep();
+                LoadListUngVien();
                 p.Close();
             });
             #endregion
@@ -229,7 +256,7 @@ namespace QuanLyNhanVien.ViewModel
             #region Xóa
             XoaCommand = new RelayCommand<Window>((p) =>
             {
-                if (SelectedLoaiNghiPhep == null)
+                if (SelectedUngVien == null)
                 {
                     MessageBox.Show("Vui lòng chọn Loại Nghỉ Phép trước khi xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
@@ -244,12 +271,12 @@ namespace QuanLyNhanVien.ViewModel
                     {
                         try
                         {
-                            var lnp = DataProvider.Ins.DB.LoaiNghiPhep.Where(x => x.Ma_LNP == SelectedLoaiNghiPhep.Ma_LNP).FirstOrDefault();
-                            DataProvider.Ins.DB.LoaiNghiPhep.Remove(lnp);
+                            var Xoa = DataProvider.Ins.DB.UngVien.Where(x => x.Ma_UV == SelectedUngVien.Ma_UV).FirstOrDefault();
+                            DataProvider.Ins.DB.UngVien.Remove(Xoa);
 
                             DataProvider.Ins.DB.SaveChanges();
                             transaction.Commit();
-                            if (MessageBox.Show("Xóa Tài khoản thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
+                            if (MessageBox.Show("Xóa Ứng Viên thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
                             {
                                 ResetControls();
                                 p.Close();
@@ -258,10 +285,221 @@ namespace QuanLyNhanVien.ViewModel
                         }
                         catch (Exception e)
                         {
-                            MessageBox.Show("Xóa không thành công!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Xóa không thành công!" + e.ToString(), "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                             transaction.Rollback();
                         }
-                        LoadListLoaiNghiPhep();
+                        LoadListUngVien();
+                    }
+                }
+            });
+            #endregion
+
+            //----------------------------------------------//
+            //Hồ Sơ Ứng Tuyển
+            #region Tạo mới HSUT
+            // Tạo mới => Button Tạo mới ở Main Window => Phòng Ban
+            TaoMoi_HSUTCommand = new RelayCommand<Object>((p) =>
+            {
+                if (IsEditable == false)
+                {
+                    MessageBox.Show("Vui lòng bấm nút chỉnh sửa trước khi thêm mới hồ sơ ứng tuyển", "Thông Báo!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return false;
+                }
+                return true;
+            }, (p) =>
+            {
+                IsEditable_HSUT = true;
+                SelectedHoSoUngTuyen = null;
+                SelectedTrangThai = "Chưa xử lý";
+                ResetContronl_HSUT();
+
+                HoSoUngTuyenWindow window = new HoSoUngTuyenWindow();
+                window.ShowDialog();
+            });
+            #endregion
+
+            #region Hiển Thị HSUT
+            //Hiển thị
+            HienThi_HSUTCommand = new RelayCommand<Object>((p) =>
+            {
+                if (SelectedHoSoUngTuyen == null)
+                {
+                    return false;
+                }
+                return true;
+            }, (p) =>
+            {
+                IsEditable = false;
+
+                ViTriCongViec = SelectedHoSoUngTuyen.ViTriCongViec_HSUT;
+                NgayNop = SelectedHoSoUngTuyen.NgayNop_HSUT;
+                CV_HoSoUngTuyen = SelectedHoSoUngTuyen.Cv_HSUT;
+                SelectedTrangThai = SelectedHoSoUngTuyen.TrangThai_HSUT;
+                TenFileCV = "cv.pdf";
+
+                HoSoUngTuyenWindow window = new HoSoUngTuyenWindow();
+                window.ShowDialog();
+            });
+            #endregion
+
+            #region Hủy HSUT
+            //Button Hủy
+            Huy_HSUTCommand = new RelayCommand<Window>((p) =>
+            {
+                return true;
+            }, (p) =>
+            {
+                MessageBoxResult result = MessageBox.Show("Mọi thay đổi nếu có sẽ không được lưu, bạn có chắc chắn không?", "Thông báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.OK)
+                {
+                    IsEditable_HSUT = false;
+                    p.Close();
+                }
+            });
+            #endregion
+
+            #region Sửa  HSUT
+            Sua_HSUTCommand = new RelayCommand<Object>((p) =>
+            {
+                return true;
+            }, (p) =>
+            {
+                if (SelectedHoSoUngTuyen == null)
+                {
+                    MessageBox.Show("Vui lòng chọn hồ sơ ứng tuyển để chỉnh sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                IsEditable_HSUT = true;
+            });
+            #endregion
+
+            #region Sort HSUT
+            Sort_HSUTCommand = new RelayCommand<GridViewColumnHeader>((p) =>
+            {
+                return p == null ? false : true;
+            }, (p) =>
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListHoSoUngTuyen);
+                if (sort)
+                {
+                    view.SortDescriptions.Clear();
+                    view.SortDescriptions.Add(new SortDescription(p.Tag.ToString(), ListSortDirection.Ascending));
+                }
+                else
+                {
+                    view.SortDescriptions.Clear();
+                    view.SortDescriptions.Add(new SortDescription(p.Tag.ToString(), ListSortDirection.Descending));
+                }
+                sort = !sort;
+            });
+            #endregion
+
+            #region Luu HSUT
+            //Luu
+            Luu_HSUTCommand = new RelayCommand<Window>((p) =>
+            {
+                if (string.IsNullOrEmpty(ViTriCongViec) ||
+                NgayNop == null ||
+                CV_HoSoUngTuyen == null ||
+                SelectedTrangThai == null)
+                {
+                    MessageBox.Show("Vui lòng nhập hết thông tin hồ sơ ứng tuyển", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+                if (IsEditable_HSUT == false)
+                {
+                    MessageBox.Show("Vui lòng chỉnh sửa thông tin trước khi lưu!", "Thông tin", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+                return true;
+            }, (p) =>
+            {
+
+                if (SelectedHoSoUngTuyen == null) // Trường hợp thêm mới
+                {
+                    if (SelectedUngVien == null)
+                    {
+                        var Moi = new HoSoUngTuyen()
+                        {
+                            ViTriCongViec_HSUT = ViTriCongViec,
+                            NgayNop_HSUT = NgayNop,
+                            TrangThai_HSUT = SelectedTrangThai,
+                            Cv_HSUT = CV_HoSoUngTuyen,
+                            Ma_UV = -1,
+                        };
+
+                        ListHoSoUngTuyen.Add(Moi);
+
+                        MessageBox.Show("Thêm hồ sơ ứng tuyển thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        var Moi = new HoSoUngTuyen()
+                        {
+                            ViTriCongViec_HSUT = ViTriCongViec,
+                            NgayNop_HSUT = NgayNop,
+                            TrangThai_HSUT = SelectedTrangThai,
+                            Cv_HSUT = CV_HoSoUngTuyen,
+                            Ma_UV = SelectedUngVien.Ma_UV,
+                        };
+
+                        ListHoSoUngTuyen.Add(Moi);
+                        DataProvider.Ins.DB.HoSoUngTuyen.Add(Moi);
+
+                        MessageBox.Show("Thêm hồ sơ ứng tuyển thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    p.Close();
+                }
+                else
+                {
+                    if (SelectedHoSoUngTuyen != null)
+                    {
+                        SelectedHoSoUngTuyen.ViTriCongViec_HSUT = ViTriCongViec;
+                        SelectedHoSoUngTuyen.NgayNop_HSUT = NgayNop;
+                        SelectedHoSoUngTuyen.TrangThai_HSUT = SelectedTrangThai;
+                        SelectedHoSoUngTuyen.Cv_HSUT = CV_HoSoUngTuyen;
+
+                        if (SelectedUngVien != null)
+                        {
+                            var Sua = DataProvider.Ins.DB.HoSoUngTuyen.Where(x => x.Ma_HSUT == SelectedHoSoUngTuyen.Ma_HSUT).SingleOrDefault();
+
+                            Sua.ViTriCongViec_HSUT = ViTriCongViec;
+                            Sua.NgayNop_HSUT = NgayNop;
+                            Sua.TrangThai_HSUT = SelectedTrangThai;
+                            Sua.Cv_HSUT = CV_HoSoUngTuyen;
+
+                            DataProvider.Ins.DB.SaveChanges();
+                            MessageBox.Show("Cập nhật thông tin hồ sơ ứng tuyển thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                }
+                LoadListHoSoUngTuyen();
+                p.Close();
+            });
+            #endregion
+
+            #region Xóa HSUT
+            Xoa_HSUTCommand = new RelayCommand<Window>((p) =>
+            {
+                if (SelectedHoSoUngTuyen == null)
+                {
+                    MessageBox.Show("Vui lòng chọn hồ sơ ứng tuyển trước khi xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+                return true;
+            }, (p) =>
+            {
+                MessageBoxResult result = MessageBox.Show("Thao tác này không thể hoàn tác!", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (SelectedUngVien != null)
+                    {
+                        DataProvider.Ins.DB.HoSoUngTuyen.Remove(SelectedHoSoUngTuyen);
+
+                        ListHoSoUngTuyen.Remove(SelectedHoSoUngTuyen);
+                    }
+                    else
+                    {
+                        ListHoSoUngTuyen.Remove(SelectedHoSoUngTuyen);
                     }
                 }
             });
@@ -276,9 +514,12 @@ namespace QuanLyNhanVien.ViewModel
 
         void ResetControls()
         {
-            TenLoaiNghiPhep = null;
-            SelectedLoaiNghiPhep = null;
-            SelectedCoLuong = null;
+            HoTen = null;
+            NgaySinh = null;
+            Email = null;
+            SDT = null;
+            DiaChi = null;
+            SelectedGioiTinh = null;
         }
         #endregion
         #endregion
@@ -325,232 +566,101 @@ namespace QuanLyNhanVien.ViewModel
         public ICommand Sua_HSUTCommand { get; set; }
         public ICommand Xoa_HSUTCommand { get; set; }
         public ICommand Sort_HSUTCommand { get; set; } // 2 Command này đc MainWindow biding để xử lý phần tim kiếm
-        public ICommand Search_HSUTCommand { get; set; }
         public ICommand ChonFile_HSUTCommand { get; set; }
         public ICommand XemFile_HSUTCommand { get; set; }
         #endregion
 
-        public LoaiNghiPhepViewModel()
+        #region Các hàm hổ trợ
+        // Xử lý lưu và đọc file
+        public byte[] FileToBinaryString(string filePath)
         {
-            #region Khởi tạo
-            LoadListLoaiNghiPhep();
-            string[] CoLuongArray = new string[] { "Có", "Không" };
-            ListCoLuong = new ObservableCollection<string>(CoLuongArray);
-            IsEditable = false;
-            #endregion
-
-            #region Command
-
-            #region Tạo mới
-            // Tạo mới => Button Tạo mới ở Main Window => Phòng Ban
-            TaoMoiCommand = new RelayCommand<Object>((p) =>
+            try
             {
-                return true;
-            }, (p) =>
-            {
-                IsEditable = true;
-                ResetControls();
-
-                LoaiNghiPhepWindow window = new LoaiNghiPhepWindow();
-                window.ShowDialog();
-            });
-            #endregion
-
-            #region Hiện Thị
-            //Hiện thị
-            HienThiCommand = new RelayCommand<Object>((p) =>
-            {
-                if (SelectedLoaiNghiPhep == null)
+                byte[] binaryString;
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    return false;
-                }
-                return true;
-            }, (p) =>
-            {
-                IsEditable = false;
-
-                TenLoaiNghiPhep = SelectedLoaiNghiPhep.Ten_LNP;
-                SelectedCoLuong = SelectedLoaiNghiPhep.CoLuong_LNP == true ? "Có" : "Không";
-
-                LoaiNghiPhepWindow window = new LoaiNghiPhepWindow();
-                window.ShowDialog();
-            });
-            #endregion
-
-            #region Hủy
-            //Button Hủy
-            HuyCommand = new RelayCommand<Window>((p) =>
-            {
-                return true;
-            }, (p) =>
-            {
-                MessageBoxResult result = MessageBox.Show("Mọi thay đổi nếu có sẽ không được lưu, bạn có chắc chắn không?", "Thông báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.OK)
-                {
-                    IsEditable = false;
-                    p.Close();
-                }
-            });
-            #endregion
-
-            #region Sửa
-            SuaCommand = new RelayCommand<Object>((p) =>
-            {
-                return true;
-            }, (p) =>
-            {
-                if (SelectedLoaiNghiPhep == null)
-                {
-                    MessageBox.Show("Vui lòng chọn loại nghỉ phép để chỉnh sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                IsEditable = true;
-            });
-            #endregion
-
-            #region Sort
-            SortCommand = new RelayCommand<GridViewColumnHeader>((p) =>
-            {
-                return p == null ? false : true;
-            }, (p) =>
-            {
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListLoaiNghiPhep);
-                if (sort)
-                {
-                    view.SortDescriptions.Clear();
-                    view.SortDescriptions.Add(new SortDescription(p.Tag.ToString(), ListSortDirection.Ascending));
-                }
-                else
-                {
-                    view.SortDescriptions.Clear();
-                    view.SortDescriptions.Add(new SortDescription(p.Tag.ToString(), ListSortDirection.Descending));
-                }
-                sort = !sort;
-            });
-            #endregion
-
-            #region Search
-            SearchCommand = new RelayCommand<Object>((p) =>
-            {
-                return true;
-            }, (p) =>
-            {
-                if (string.IsNullOrEmpty(SearchLoaiNghiPhep))
-                {
-                    CollectionViewSource.GetDefaultView(ListLoaiNghiPhep).Filter = (all) => { return true; };
-                }
-                else
-                {
-                    CollectionViewSource.GetDefaultView(ListLoaiNghiPhep).Filter = (search) =>
+                    using (var reader = new BinaryReader(stream))
                     {
-                        return (search as LoaiNghiPhep).Ten_LNP.IndexOf(SearchLoaiNghiPhep, StringComparison.OrdinalIgnoreCase) >= 0;
-                    };
-                }
-            });
-            #endregion
-
-            #region Luu
-            //Luu
-            LuuCommand = new RelayCommand<Window>((p) =>
-            {
-                if (TenLoaiNghiPhep == null || SelectedCoLuong == null)
-                {
-                    MessageBox.Show("Vui lòng nhập hết thông tin loại nghỉ phép", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-                if (IsEditable == false)
-                {
-                    MessageBox.Show("Vui lòng chỉnh sửa thông tin trước khi lưu!", "Thông tin", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-                return true;
-            }, (p) =>
-            {
-
-                if (SelectedLoaiNghiPhep == null)
-                {
-                    var LoaiNghiPhepMoi = new LoaiNghiPhep()
-                    {
-                        Ten_LNP = TenLoaiNghiPhep,
-                        CoLuong_LNP = SelectedCoLuong == "Có" ? true : false
-                    };
-
-                    DataProvider.Ins.DB.LoaiNghiPhep.Add(LoaiNghiPhepMoi);
-
-                    DataProvider.Ins.DB.SaveChanges();
-                    ListLoaiNghiPhep.Add(LoaiNghiPhepMoi);
-                    MessageBox.Show("Thêm loại nghỉ Phếp thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-
-                    var LoaiNghiPhepSua = DataProvider.Ins.DB.LoaiNghiPhep.Where(x => x.Ma_LNP == SelectedLoaiNghiPhep.Ma_LNP).SingleOrDefault();
-
-                    LoaiNghiPhepSua.Ten_LNP = TenLoaiNghiPhep;
-                    LoaiNghiPhepSua.CoLuong_LNP = SelectedCoLuong == "Có" ? true : false;
-
-                    DataProvider.Ins.DB.SaveChanges();
-                    MessageBox.Show("Cập nhật thông tin Nghỉ Phép thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                LoadListLoaiNghiPhep();
-                p.Close();
-            });
-            #endregion
-
-            #region Xóa
-            XoaCommand = new RelayCommand<Window>((p) =>
-            {
-                if (SelectedLoaiNghiPhep == null)
-                {
-                    MessageBox.Show("Vui lòng chọn Loại Nghỉ Phép trước khi xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-                return true;
-            }, (p) =>
-            {
-                MessageBoxResult result = MessageBox.Show("Thao tác này không thể hoàn tác!", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
-                {
-                    using (var transaction = DataProvider.Ins.DB.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            var lnp = DataProvider.Ins.DB.LoaiNghiPhep.Where(x => x.Ma_LNP == SelectedLoaiNghiPhep.Ma_LNP).FirstOrDefault();
-                            DataProvider.Ins.DB.LoaiNghiPhep.Remove(lnp);
-
-                            DataProvider.Ins.DB.SaveChanges();
-                            transaction.Commit();
-                            if (MessageBox.Show("Xóa Tài khoản thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
-                            {
-                                ResetControls();
-                                p.Close();
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            MessageBox.Show("Xóa không thành công!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                            transaction.Rollback();
-                        }
-                        LoadListLoaiNghiPhep();
+                        binaryString = reader.ReadBytes((int)stream.Length);
                     }
                 }
-            });
-            #endregion
-            #endregion
-        }
-        #region Các hàm hổ trợ
-        void LoadListLoaiNghiPhep()
-        {
-            ListLoaiNghiPhep = new ObservableCollection<LoaiNghiPhep>(DataProvider.Ins.DB.LoaiNghiPhep);
+                return binaryString;
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show("Đã xảy ra lỗi!" + e.ToString(), "Thông báo!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
 
-        void ResetControls()
+        public string BinaryStringToFile(byte[] binaryString)
         {
-            TenLoaiNghiPhep = null;
-            SelectedLoaiNghiPhep = null;
-            SelectedCoLuong = null;
+            if (binaryString != null)
+            {
+                var fs = new FileStream("../../ResurceXAML/TempFile/cv.pdf", FileMode.Create, FileAccess.Write);
+                fs.Write(binaryString, 0, binaryString.Length);
+                return fs.Name;
+            }
+            else
+            {
+                MessageBox.Show("Đã xảy ra lỗi!", "Thông báo!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
+
+        //Các hàm Load
+        void LoadListHoSoUngTuyen()
+        {
+            ListHoSoUngTuyen = new ObservableCollection<HoSoUngTuyen>(DataProvider.Ins.DB.HoSoUngTuyen);
+        }
+
+        void ReloadListHoSoUngTuyen()
+        {
+            if (SelectedUngVien == null)
+            {
+                ListHoSoUngTuyen = new ObservableCollection<HoSoUngTuyen>();
+                return;
+            }
+            else
+            {
+                ListHoSoUngTuyen = new ObservableCollection<HoSoUngTuyen>(DataProvider.Ins.DB.HoSoUngTuyen.Where(x => x.Ma_UV == SelectedUngVien.Ma_UV));
+            }
+        }
+
+        void ResetContronl_HSUT()
+        {
+            ViTriCongViec = null;
+            NgayNop = null;
+            CV_HoSoUngTuyen = null;
+            TenFileCV = null;
+        }
+
+        void UnchangedAllActions()
+        {
+            // if (ListHoSoUngTuyen == null) return;
+            var changedEntries = DataProvider.Ins.DB.ChangeTracker.Entries()
+                .Where(x => x.State != System.Data.Entity.EntityState.Unchanged).ToList();
+
+            foreach (var entry in changedEntries)
+            {
+                switch (entry.State)
+                {
+                    case System.Data.Entity.EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = System.Data.Entity.EntityState.Unchanged;
+                        break;
+                    case System.Data.Entity.EntityState.Added:
+                        entry.State = System.Data.Entity.EntityState.Detached;
+                        break;
+                    case System.Data.Entity.EntityState.Deleted:
+                        entry.State = System.Data.Entity.EntityState.Unchanged;
+                        break;
+                }
+            }
+        }
+       
         #endregion
         #endregion
+
     }
 }
