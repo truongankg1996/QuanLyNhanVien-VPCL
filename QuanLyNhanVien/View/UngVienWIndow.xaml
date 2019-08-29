@@ -24,7 +24,7 @@
         
         DataContext="{StaticResource TuyenDungVM}"
         Name="window"
-        Title="Thông Tin Ứng Tuyển" Height="700" Width="1000">
+        Title="Thông Tin Ứng Viên" Height="700" Width="1000">
 
     <Grid>
         <Grid.RowDefinitions>

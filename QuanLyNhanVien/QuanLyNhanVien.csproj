@@ -130,6 +130,9 @@
     <Compile Include="View\TaiKhoanWindow.xaml.cs">
       <DependentUpon>TaiKhoanWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UngVienWindow.xaml.cs">
+      <DependentUpon>UngVienWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="ResourceXAML\MainResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,6 +252,10 @@
     <Page Include="View\TaiKhoanWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UngVienWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

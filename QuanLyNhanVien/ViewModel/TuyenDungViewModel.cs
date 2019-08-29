@@ -89,7 +89,7 @@ namespace QuanLyNhanVien.ViewModel
                 ResetControls();
                 ReloadListHoSoUngTuyen();
 
-                UngVienWIndow window = new UngVienWIndow();
+                UngVienWindow window = new UngVienWindow();
                 window.ShowDialog();
             });
             #endregion
@@ -116,7 +116,7 @@ namespace QuanLyNhanVien.ViewModel
                 SelectedGioiTinh = SelectedUngVien.GioiTinh_UV == true ? "Nữ" : "Nam";
 
                 ReloadListHoSoUngTuyen();
-                UngVienWIndow window = new UngVienWIndow();
+                UngVienWindow window = new UngVienWindow();
                 window.ShowDialog();
             });
             #endregion
