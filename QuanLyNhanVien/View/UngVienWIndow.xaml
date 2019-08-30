@@ -24,7 +24,7 @@
         
         DataContext="{StaticResource TuyenDungVM}"
         Name="window"
-        Title="Thông Tin Ứng Viên" Height="700" Width="1000">
+        Title="Thông Tin Ứng Viên" Height="700" Width="1100">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -158,7 +158,8 @@
                     </materialDesign:Card>
                 </Grid>
 
-                <Grid Grid.Column="1" DataContext="{StaticResource TuyenDungVM}">
+                <Grid Grid.Column="1"  Margin="10 0 0 0"
+                      DataContext="{StaticResource TuyenDungVM}">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="4*"></RowDefinition>
@@ -191,25 +192,25 @@
 
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding ViTriCongViec_HSUT}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding ViTriCongViec_HSUT}" Width="200">
                                             <GridViewColumnHeader Tag="ViTriCongViec_HSUT" 
                                                               Command="{Binding Sort_HSUTCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Vị Trí Công Việc" Width="200">
+                                                              VerticalAlignment="Center" Content="Vị Trí Công Việc" >
                                             </GridViewColumnHeader>
                                         </GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding NgayNop_HSUT, StringFormat='dd/MM/yyyy'}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding NgayNop_HSUT, StringFormat='dd/MM/yyyy'}" Width="150">
                                             <GridViewColumnHeader Tag="NgayNop_HSUT" 
                                                               Command="{Binding Sort_HSUTCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Ngày Nộp" Width="150">
+                                                              VerticalAlignment="Center" Content="Ngày Nộp">
                                             </GridViewColumnHeader>
                                         </GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding TrangThai_HSUT}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding TrangThai_HSUT}" Width="150">
                                             <GridViewColumnHeader Tag="TrangThai_HSUT" 
                                                               Command="{Binding Sort_HSUTCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Trạng Thái" Width="100">
+                                                              VerticalAlignment="Center" Content="Trạng Thái" >
                                             </GridViewColumnHeader>
                                         </GridViewColumn>
                                     </GridView>

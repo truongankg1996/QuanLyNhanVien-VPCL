@@ -712,39 +712,39 @@
 
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Ma_NV}" >
+                                            <GridViewColumn DisplayMemberBinding="{Binding Ma_NV}" Width="100">
                                                 <GridViewColumnHeader Tag="Ma_NV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="ID" Width="100">
+                                                              VerticalAlignment="Center" Content="ID" >
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding HoTen_NV}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding HoTen_NV}" Width="250">
                                                 <GridViewColumnHeader Tag="HoTen_NV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Họ tên" Width="250">
+                                                              VerticalAlignment="Center" Content="Họ tên" >
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding ChucVu_NV}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding ChucVu_NV}"  Width="300">
                                                 <GridViewColumnHeader Tag="ChucVu_NV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Chức vụ" Width="300">
+                                                              VerticalAlignment="Center" Content="Chức vụ">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding NgayVaoLam_NV, StringFormat='dd/MM/yyyy'}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding NgayVaoLam_NV, StringFormat='dd/MM/yyyy'}" Width="150">
                                                 <GridViewColumnHeader Tag="NgayVaoLam_NV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Ngày vào làm" Width="150">
+                                                              VerticalAlignment="Center" Content="Ngày vào làm" >
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding SoDienThoai_NV}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding SoDienThoai_NV}"  Width="150">
                                                 <GridViewColumnHeader Tag="SoDienThoai_NV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Số điện thoại" Width="150">
+                                                              VerticalAlignment="Center" Content="Số điện thoại">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
                                         </GridView>
@@ -2174,7 +2174,6 @@
 
                             <!--Button Tạo Mới-->
                             <Button
-                                        Command="{Binding TaoMoiComamand}"
                                         Grid.Column="1" Height="auto"  Width="150"
                                         HorizontalAlignment="Right"
                                         ToolTip="Tạo Mới"
@@ -2193,6 +2192,13 @@
                                         <TextBlock Text="Tạo Mới" HorizontalAlignment="Center" FontSize="20"></TextBlock>
                                     </Grid>
                                 </Grid>
+
+                                
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding TaoMoiCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                         </Grid>
 
@@ -2212,32 +2218,32 @@
 
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Ma_UV}" >
+                                            <GridViewColumn DisplayMemberBinding="{Binding Ma_UV}" Width="100">
                                                 <GridViewColumnHeader Tag="Ma_UV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
                                                               VerticalAlignment="Center" Content="ID" Width="100">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding HoTen_UV}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding HoTen_UV}" Width="300">
                                                 <GridViewColumnHeader Tag="HoTen_UV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Tên Ứng Viên" Width="250">
+                                                              VerticalAlignment="Center" Content="Tên Ứng Viên">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding NgaySinh_UV, StringFormat='dd/MM/yyyy'}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding NgaySinh_UV, StringFormat='dd/MM/yyyy'}" Width="250">
                                                 <GridViewColumnHeader Tag="NgaySinh_UV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Ngày Sinh Ứng Viên" Width="100">
+                                                              VerticalAlignment="Center" Content="Ngày Sinh Ứng Viên">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Email_UV}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding Email_UV}" Width="250">
                                                 <GridViewColumnHeader Tag="Email_UV" 
                                                               Command="{Binding SortCommand}" 
                                                               CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                                              VerticalAlignment="Center" Content="Email" Width="200">
+                                                              VerticalAlignment="Center" Content="Email">
                                                 </GridViewColumnHeader>
                                             </GridViewColumn>
                                         </GridView>
@@ -2702,7 +2708,7 @@
                         <Grid Grid.Row="1">
                             <!--Tab Tài Khoản-->
                             <Grid>
-                                <Grid.Style>
+                              <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Hidden"></Setter>
                                         <Style.Triggers>
